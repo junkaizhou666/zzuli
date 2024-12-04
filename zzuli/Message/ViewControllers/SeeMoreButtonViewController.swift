@@ -8,15 +8,36 @@
 import UIKit
 
 class SeeMoreButtonViewController: UIViewController {
-    var settingTableView: SettingTableView = SettingTableView()
+    private var settingTableView: SettingTableView = SettingTableView()
+    private var customNavigationBar: CustomNavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
+        
+        setupHeader()
+        setupTable()
+    }
+    
+    private func setupHeader() {
+        customNavigationBar = CustomNavigationBar()
+        customNavigationBar.hideRightButton()
+        customNavigationBar.setTitle("公告通知")
+        customNavigationBar.setLeftButtonTitle("返回") {
+            self.navigationController?.popViewController(animated: true)
+        }
+        view.addSubview(customNavigationBar)
+        customNavigationBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.right.left.equalToSuperview()
+        }
+    }
+    
+    private func setupTable() {
         view.addSubview(settingTableView)
         settingTableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(customNavigationBar.snp.bottom)
+            make.right.left.equalToSuperview()
         }
         
         let model = NoticeModel()

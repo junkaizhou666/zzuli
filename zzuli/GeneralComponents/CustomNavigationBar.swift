@@ -11,9 +11,10 @@ import SnapKit
 class CustomNavigationBar: UIView {
     
     // MARK: - UI Elements
-    private let leftButton = UIButton()
-    private let rightButton = UIButton()
     private let titleLabel = UILabel()
+    private var leftBarButton: UIBarButtonItem?
+    private var rightBarButton: UIBarButtonItem?
+    private let navigationBar = UINavigationBar()
     
     // MARK: - Properties
     var leftButtonAction: (() -> Void)?
@@ -34,46 +35,62 @@ class CustomNavigationBar: UIView {
     private func setupView() {
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        // Setup Left Button
-        leftButton.setTitle("Left", for: .normal)
-        leftButton.setTitleColor(.blue, for: .normal)
-        leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-        addSubview(leftButton)
+        // Setup UINavigationBar
+        addSubview(navigationBar)
+        navigationBar.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(44)
+        }
         
-        // Setup Right Button
-        rightButton.setTitle("Right", for: .normal)
-        rightButton.setTitleColor(.blue, for: .normal)
-        rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-        addSubview(rightButton)
+        // Setup Default Navigation Item
+        let navigationItem = UINavigationItem()
         
         // Setup Title Label
         titleLabel.text = "Title"
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        addSubview(titleLabel)
+        let titleView = UIView()
+        titleView.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        navigationItem.titleView = titleView
         
-        // Layout with SnapKit
-        setupConstraints()
+        // Attach navigation item to navigation bar
+        navigationBar.setItems([navigationItem], animated: false)
     }
     
-    private func setupConstraints() {
-        leftButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(16)
-        }
-        
-        rightButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-16)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        
-        self.snp.makeConstraints { make in
-            make.height.equalTo(44)
-        }
+    // MARK: - Public Methods
+    func setTitle(_ title: String) {
+        titleLabel.text = title
+    }
+    
+    func setLeftButtonTitle(_ title: String, action: @escaping () -> Void) {
+        leftButtonAction = action
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        leftBarButton = UIBarButtonItem(customView: button)
+        updateNavigationItem()
+    }
+    
+    func setRightButtonTitle(_ title: String, action: @escaping () -> Void) {
+        rightButtonAction = action
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
+        rightBarButton = UIBarButtonItem(customView: button)
+        updateNavigationItem()
+    }
+    
+    func hideLeftButton() {
+        leftBarButton = nil
+        updateNavigationItem()
+    }
+    
+    func hideRightButton() {
+        rightBarButton = nil
+        updateNavigationItem()
     }
     
     // MARK: - Button Actions
@@ -85,23 +102,11 @@ class CustomNavigationBar: UIView {
         rightButtonAction?()
     }
     
-    // MARK: - Public Methods
-    func setTitle(_ title: String) {
-        titleLabel.text = title
-    }
-    
-    func setLeftButtonTitle(_ title: String, action: @escaping () -> Void) {
-        leftButton.setTitle(title, for: .normal)
-        leftButtonAction = action
-        leftButton.isHidden = false // 显示左侧按钮
-    }
-    
-    func setRightButtonTitle(_ title: String, action: @escaping () -> Void) {
-        rightButton.setTitle(title, for: .normal)
-        rightButtonAction = action
-    }
-    
-    func hideLeftButton() {
-        leftButton.isHidden = true
+    // MARK: - Private Methods
+    private func updateNavigationItem() {
+        if let navigationItem = navigationBar.items?.first {
+            navigationItem.leftBarButtonItem = leftBarButton
+            navigationItem.rightBarButtonItem = rightBarButton
+        }
     }
 }
