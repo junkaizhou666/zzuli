@@ -10,6 +10,7 @@ import SnapKit
 
 class MessageViewController: UIViewController {
     
+    private var statusBarBackgroundView: UIView!
     private var customNavBar: CustomNavigationBar!
     private var buttonStackView: ButtonStackView!
     private var informationVC: InformationViewController!
@@ -18,26 +19,27 @@ class MessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupHeader()
-        setupTopBackground()
+        setupStatusBarBackground()
+        setupNavBar()
         setupButtonStackView()
         setupInformationVC()
     }
     
-    
-    private func setupTopBackground() {
-        topBackgroundView = UIView()
-        topBackgroundView.backgroundColor = customNavBar.backgroundColor
-        view.addSubview(topBackgroundView)
+    private func setupStatusBarBackground() {
+        statusBarBackgroundView = UIView()
+        statusBarBackgroundView.backgroundColor = .blue
+        view.addSubview(statusBarBackgroundView)
         
-        topBackgroundView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(customNavBar.snp.top)
+        statusBarBackgroundView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(44)
         }
     }
     
-    private func setupHeader() {
+    private func setupNavBar() {
         customNavBar = CustomNavigationBar()
+        customNavBar.navigationBar.barTintColor = .blue
+        customNavBar.navigationBar.isTranslucent = false
         customNavBar.hideLeftButton()
         customNavBar.setTitle("综合信息")
         customNavBar.setRightButtonTitle("通知") {
@@ -46,7 +48,7 @@ class MessageViewController: UIViewController {
         }
         view.addSubview(customNavBar)
         customNavBar.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(statusBarBackgroundView.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
     }
