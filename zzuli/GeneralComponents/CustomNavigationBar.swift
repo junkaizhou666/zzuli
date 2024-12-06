@@ -62,22 +62,22 @@ class CustomNavigationBar: UIView {
         titleLabel.text = title
     }
     
-    func setLeftButtonTitle(_ title: String, action: @escaping () -> Void) {
+    func setLeftButtonTitle(_ title: String, titleColor: UIColor ,action: @escaping () -> Void) {
         leftButtonAction = action
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(titleColor, for: .normal)
         leftBarButton = UIBarButtonItem(customView: button)
         updateNavigationItem()
     }
     
-    func setRightButtonTitle(_ title: String, action: @escaping () -> Void) {
+    func setRightButtonTitle(_ title: String, titleColor: UIColor, action: @escaping () -> Void) {
         rightButtonAction = action
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(titleColor, for: .normal)
         rightBarButton = UIBarButtonItem(customView: button)
         updateNavigationItem()
     }
