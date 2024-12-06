@@ -18,7 +18,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
+        
+//        let homeVC = HomeViewController()
+//        let homeNavController = UINavigationController(rootViewController: homeVC)
+//        homeNavController.tabBarItem = UITabBarItem(title: "首页", image: nil, tag: 0)
+//        
+//        let messageVC = MessageViewController()
+//        let messageNavController = UINavigationController(rootViewController: messageVC)
+//        messageNavController.tabBarItem = UITabBarItem(title: "综合信息", image: nil, tag: 1)
+//        
+//        let serviceVC = ServiceViewController()
+//        let serviceNavController = UINavigationController(rootViewController: serviceVC)
+//        serviceNavController.tabBarItem = UITabBarItem(title: "应用服务", image: nil, tag: 2)
+//        
+//        let profileVC = ProfileViewController()
+//        let profileNavController = UINavigationController(rootViewController: profileVC)
+//        profileNavController.tabBarItem = UITabBarItem(title: "个人中心", image: nil, tag: 3)
+        
         let tabBarController = TabBarViewController()
+//        tabBarController.viewControllers = [homeNavController, messageNavController, serviceNavController, profileNavController]
+        
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }

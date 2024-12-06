@@ -14,7 +14,7 @@ class CustomNavigationBar: UIView {
     private let titleLabel = UILabel()
     private var leftBarButton: UIBarButtonItem?
     private var rightBarButton: UIBarButtonItem?
-    private let navigationBar = UINavigationBar()
+    let navigationBar = UINavigationBar()
     
     // MARK: - Properties
     var leftButtonAction: (() -> Void)?
@@ -34,18 +34,16 @@ class CustomNavigationBar: UIView {
     // MARK: - Setup UI
     private func setupView() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        
+
         // Setup UINavigationBar
         addSubview(navigationBar)
         navigationBar.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.height.equalTo(44)
         }
-        
-        // Setup Default Navigation Item
+
         let navigationItem = UINavigationItem()
-        
-        // Setup Title Label
+
         titleLabel.text = "Title"
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -55,8 +53,7 @@ class CustomNavigationBar: UIView {
             make.edges.equalToSuperview()
         }
         navigationItem.titleView = titleView
-        
-        // Attach navigation item to navigation bar
+
         navigationBar.setItems([navigationItem], animated: false)
     }
     
@@ -65,20 +62,22 @@ class CustomNavigationBar: UIView {
         titleLabel.text = title
     }
     
-    func setLeftButtonTitle(_ title: String, action: @escaping () -> Void) {
+    func setLeftButtonTitle(_ title: String, titleColor: UIColor ,action: @escaping () -> Void) {
         leftButtonAction = action
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        button.setTitleColor(titleColor, for: .normal)
         leftBarButton = UIBarButtonItem(customView: button)
         updateNavigationItem()
     }
     
-    func setRightButtonTitle(_ title: String, action: @escaping () -> Void) {
+    func setRightButtonTitle(_ title: String, titleColor: UIColor, action: @escaping () -> Void) {
         rightButtonAction = action
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
+        button.setTitleColor(titleColor, for: .normal)
         rightBarButton = UIBarButtonItem(customView: button)
         updateNavigationItem()
     }

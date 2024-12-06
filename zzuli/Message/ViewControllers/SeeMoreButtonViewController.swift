@@ -15,28 +15,13 @@ class SeeMoreButtonViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        setupHeader()
         setupTable()
-    }
-    
-    private func setupHeader() {
-        customNavigationBar = CustomNavigationBar()
-        customNavigationBar.hideRightButton()
-        customNavigationBar.setTitle("公告通知")
-        customNavigationBar.setLeftButtonTitle("返回") {
-            self.navigationController?.popViewController(animated: true)
-        }
-        view.addSubview(customNavigationBar)
-        customNavigationBar.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.right.left.equalToSuperview()
-        }
     }
     
     private func setupTable() {
         view.addSubview(settingTableView)
         settingTableView.snp.makeConstraints { make in
-            make.top.equalTo(customNavigationBar.snp.bottom)
+            make.top.equalToSuperview()
             make.right.left.equalToSuperview()
         }
         

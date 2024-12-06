@@ -48,11 +48,11 @@ class TabBarViewController: UITabBarController {
     
     /// 添加子视图控制器
     private func setupViewControllers() {
-        let messageVC = MessageViewController()
-        addChildViewController(childViewController: messageVC, title: "综合信息")
-        
         let homeVC = HomeViewController()
         addChildViewController(childViewController: homeVC, title: "首页")
+        
+        let messageVC = MessageViewController()
+        addChildViewController(childViewController: messageVC, title: "综合信息")
         
         let serviceVC = ServiceViewController()
         addChildViewController(childViewController: serviceVC, title: "应用服务")
@@ -65,7 +65,7 @@ class TabBarViewController: UITabBarController {
     /// 添加单个子视图控制器
     private func addChildViewController(childViewController: UIViewController, title: String?, image: UIImage? = nil, selectedImage: UIImage? = nil) {
         let navigationController = UINavigationController(rootViewController: childViewController)
-        navigationController.setNavigationBarHidden(true, animated: false)
+        navigationController.setNavigationBarHidden(false, animated: true)
         
         let tabBarItem = navigationController.tabBarItem
         tabBarItem?.title = title
